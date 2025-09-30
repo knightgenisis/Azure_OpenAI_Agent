@@ -1,0 +1,12 @@
+streamlit>=1.28.0
+python-dotenv>=1.0.0
+asyncio
+
+openai>=1.30.0
+
+openai-agents>=0.0.8
+
+opik>=0.2.0
+
+requests>=2.31.0
+pydantic>=2.0.0
