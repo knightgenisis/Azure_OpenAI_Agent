@@ -51,6 +51,6 @@ if __name__ == "__main__":
     print(f"Opik Project: {status['project']}")
     
     if status['configured']:
-        print("\nâœ… Ready to go!")
+        print("\nReady to go!")
     else:
-        print("\nâŒ Please set up your .env file with Azure OpenAI credentials")
+        print("\nPlease set up your .env file with Azure OpenAI credentials")

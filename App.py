@@ -1,8 +1,8 @@
 import streamlit as st
 from datetime import datetime
 import opik
-from agent import get_agent
-from config import Config
+from agents import get_agent
+from Configure import Config
 
 # Configure Opik for local usage
 opik.configure(use_local=True, project_name=Config.OPIK_PROJECT_NAME)
