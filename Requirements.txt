@@ -1,24 +1,18 @@
-# Core dependencies
-streamlit>=1.28.0
-openai-agents>=0.3.3
+# Core OpenAI and Agents
 openai>=1.12.0
-opik>=0.2.0
-python-dotenv>=1.0.0
+agents>=0.4.0
 
-# Data processing
-pandas>=2.0.0
-numpy>=1.24.0
+# Web UI Framework
+streamlit>=1.28.0
+
+# Opik for tracing (local setup)
+opik>=0.2.0
+
+# Environment and configuration
+python-dotenv>=1.0.0
 
 # Async support
 aiohttp>=3.8.0
-asyncio-throttle>=1.0.0
 
-# Logging and monitoring
-structlog>=23.1.0
-
-# Environment and configuration
-pydantic>=2.0.0
-pydantic-settings>=2.0.0
-
-# Optional UI enhancements
-plotly>=5.15.0
+# Utilities
+requests>=2.31.0
