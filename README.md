@@ -1,196 +1,252 @@
-# Azure OpenAI Agent with Opik Tracing
+# OpenAI Agents SDK with Azure OpenAI & Opik Tracing
 
-A comprehensive Python application that demonstrates how to build AI agents using the OpenAI Agents SDK with Azure OpenAI, integrated with Opik for advanced tracing and telemetry.
+A production-ready Python application that demonstrates how to build AI agents using the OpenAI Agents SDK with Azure OpenAI, featuring a Streamlit web interface and local Opik tracing for monitoring and observability.
 
 ## Features
 
-- **OpenAI Agents SDK**: Simple and powerful agent framework
-- **Azure OpenAI Integration**: Leverages Azure's enterprise-grade OpenAI service
-- **Opik Tracing**: Comprehensive observability and analytics for AI agents
-- **Dual Interface**: Both web UI (Streamlit) and command-line interface
-- **Production Ready**: Built with best practices for monitoring and debugging
+- **OpenAI Agents SDK**: Build sophisticated AI agents with the official SDK
+- **Azure OpenAI Integration**: Use Azure-hosted OpenAI models 
+- **Streamlit Web UI**: Clean, interactive chat interface
+- **Opik Tracing**: Local observability and tracing for agent interactions
+- **Docker Support**: Full containerization for easy deployment
+- **Team Collaboration**: GitHub-ready with proper configuration management
 
 ## Prerequisites
 
-- Python 3.9 or higher
-- Azure OpenAI resource and API key
-- Opik account (free at https://www.comet.com/opik)
+- Python 3.11+
+- Docker & Docker Compose
+- Azure OpenAI resource with deployed model
+- Git (for version control)
 
-## Installation
+## Quick Setup
 
-1. **Clone or create the project directory:**
-   ```bash
-   mkdir azure-openai-agent
-   cd azure-openai-agent
-   ```
-
-2. **Install dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Set up environment variables:**
-   ```bash
-   cp .env.example .env
-   ```
-
-   Edit `.env` file with your credentials:
-   ```env
-   # Azure OpenAI Configuration
-   AZURE_OPENAI_API_KEY=your_azure_openai_api_key_here
-   AZURE_OPENAI_ENDPOINT=https://your-resource.openai.azure.com/
-   AZURE_OPENAI_API_VERSION=2024-08-01-preview
-   AZURE_OPENAI_DEPLOYMENT_NAME=gpt-4o-mini
-
-   # Opik Configuration
-   OPIK_API_TOKEN=your_opik_api_token_here
-   OPIK_PROJECT_NAME=azure-openai-agents
-   OPIK_WORKSPACE=your_workspace_name_here
-   ```
-
-## Azure OpenAI Setup
-
-1. **Create Azure OpenAI Resource:**
-   - Go to [Azure Portal](https://portal.azure.com)
-   - Create a new "Azure OpenAI" resource
-   - Note down the endpoint and API key
-
-2. **Deploy a Model:**
-   - In Azure AI Foundry, go to your OpenAI resource
-   - Deploy a model (e.g., `gpt-4o-mini`)
-   - Note the deployment name
-
-## Opik Setup
-
-1. **Create Opik Account:**
-   - Sign up at [Comet Opik](https://www.comet.com/opik)
-   - Create a new project
-
-2. **Get API Credentials:**
-   - Go to your Opik settings
-   - Copy your API token and workspace name
-
-## Usage
-
-### Option 1: Web Interface (Streamlit)
+### 1. Clone and Setup
 
 ```bash
-streamlit run azure_agent_app.py
+git clone https://github.com/yourusername/openai-agents-opik-app.git
+cd openai-agents-opik-app
+
+# Copy environment template
+copy Credentials.example .env
 ```
 
-This launches a user-friendly web interface where you can:
-- Chat with the AI agent
-- View real-time configuration status
-- Access links to Opik dashboard
+### 2. Configure Environment
 
-### Option 2: Command Line Interface
+Edit `.env` with your Azure OpenAI credentials:
 
 ```bash
-python cli_agent_app.py
+AZURE_OPENAI_KEY=your_azure_openai_api_key_here
+AZURE_OPENAI_ENDPOINT=https://your-resource-name.openai.azure.com/
+AZURE_DEPLOYMENT_NAME=gpt-4o
 ```
 
-Simple command-line chat interface with:
-- Interactive conversation
-- Real-time responses
-- Automatic tracing to Opik
+### 3. Run with Docker Compose (Recommended)
+
+```bash
+# Start all services (app + Opik)
+docker-compose up --build
+
+# Access the app at: http://localhost:8501
+# Access Opik dashboard at: http://localhost:5173
+```
+
+### 4. Alternative: Local Development
+
+```bash
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Start Opik separately (in another terminal)
+git clone https://github.com/comet-ml/opik.git
+cd opik
+docker-compose -f deployment/docker-compose/docker-compose.yaml up -d
+
+# Run the Streamlit app
+cd ../openai-agents-opik-app
+streamlit run app.py
+```
+
+## ðŸ—ï¸ Project Structure
+
+```
+openai-agents-opik-app/
+ app.py                  # Main Streamlit application
+ config.py              # Configuration management
+ requirements.txt        # Python dependencies
+ Dockerfile             # Container configuration
+ docker-compose.yml     # Multi-service orchestration
+ Credentials.example           # Environment variables template
+ .gitignore            # Git ignore rules
+ README.md             # This file
+```
+
+## How It Works
+
+### Application Flow
+
+1. **User Input**: User enters a query in the Streamlit chat interface
+2. **Agent Processing**: OpenAI Agents SDK processes the query using Azure OpenAI
+3. **Tracing**: Opik automatically captures and traces the interaction
+4. **Response**: The agent's response is displayed in the chat interface
+5. **Monitoring**: View detailed traces and metrics in the Opik dashboard
+
+### Key Components
+
+- **`app.py`**: Main Streamlit application with chat interface
+- **`config.py`**: Environment-based configuration management
+- **OpenAI Agents SDK**: Handles agent creation and query processing
+- **Opik Integration**: Automatic tracing with `@opik.track()` decorator
+- **Azure OpenAI**: Cloud-hosted model inference
+
+## Docker Deployment
+
+### Production Deployment
+
+```bash
+# Build and run in detached mode
+docker-compose up -d --build
+
+# View logs
+docker-compose logs -f openai-agents-app
+
+# Stop services
+docker-compose down
+```
+
+### Development Mode
+
+```bash
+# Run with volume mounting for live code changes
+docker-compose -f docker-compose.yml up --build
+```
 
 ## Monitoring with Opik
 
-Once your application is running, you can monitor it through the Opik dashboard:
+1. **Access Dashboard**: Navigate to http://localhost:5173
+2. **View Traces**: See real-time agent interactions and performance
+3. **Analyze Metrics**: Monitor response times, token usage, and success rates
+4. **Debug Issues**: Detailed trace information for troubleshooting
 
-1. **Visit your Opik dashboard**: https://www.comet.com/opik
-2. **Select your project**: `azure-openai-agents` (or your custom name)
-3. **View traces**: See all conversations, response times, and metadata
-4. **Analyze performance**: Token usage, costs, and response quality
+## Configuration Options
 
-### Key Opik Features:
+### Environment Variables
 
-- **Trace Visualization**: See the complete flow of each conversation
-- **Performance Metrics**: Response time, token usage, and costs
-- **Error Tracking**: Identify and debug issues
-- **Conversation Analytics**: Understand usage patterns
-- **Custom Metadata**: Track specific business metrics
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `AZURE_OPENAI_KEY` | Azure OpenAI API key | Required |
+| `AZURE_OPENAI_ENDPOINT` | Azure OpenAI endpoint URL | Required |
+| `AZURE_DEPLOYMENT_NAME` | Model deployment name | gpt-4o |
+| `AZURE_API_VERSION` | Azure OpenAI API version | 2024-02-01 |
+| `OPIK_URL` | Opik instance URL | http://localhost:5173/api |
+| `STREAMLIT_SERVER_PORT` | Streamlit port | 8501 |
 
+### Customization
 
+- **Agent Instructions**: Modify the agent's behavior in `app.py`
+- **UI Styling**: Customize Streamlit interface appearance
+- **Tracing Options**: Configure Opik tracing granularity
+- **Model Parameters**: Adjust temperature, max_tokens, etc.
 
-## Code Structure
+## Team Collaboration
 
-- `azure_agent_app.py`: Streamlit web application
-- `cli_agent_app.py`: Command-line interface
-- `requirements.txt`: Python dependencies
-- `.env.example`: Environment variables template
-- `README.md`: This documentation
+### Git Workflow
 
-## Key Components
+```bash
+# Clone repository
+git clone https://github.com/yourusername/openai-agents-opik-app.git
 
-### 1. Agent Configuration
-```python
-agent = Agent(
-    name="Azure AI Assistant",
-    instructions="Your helpful AI assistant instructions",
-    model=OpenAIChatCompletionsModel(
-        model=deployment_name,
-        openai_client=azure_client,
-    ),
-)
+# Create feature branch
+git checkout -b feature/your-feature-name
+
+# Make changes and commit
+git add .
+git commit -m "Add your feature"
+
+# Push and create pull request
+git push origin feature/your-feature-name
 ```
 
-### 2. Opik Integration
-```python
-@opik.track(name="agent_conversation")
-async def process_message(self, user_input: str) -> str:
-    with opik.track_context():
-        result = await Runner.run(agent=self.agent, input=user_input)
-        # Automatic tracing and logging
-        return result.final_output
+### Development Best Practices
+
+1. **Environment**: Always use `.env` for local development
+2. **Dependencies**: Update `requirements.txt` when adding packages
+3. **Testing**: Test changes locally before committing
+4. **Documentation**: Update README.md for significant changes
+
+## ðŸš¨ Troubleshooting
+
+### Common Issues
+
+**Azure OpenAI Connection Failed**
+- Verify your API key and endpoint in `.env`
+- Check that your Azure OpenAI resource is active
+- Ensure the deployment name matches your Azure configuration
+
+**Opik Not Available**
+- Make sure Docker is running
+- Check if Opik services are healthy: `docker-compose ps`
+- Restart Opik services: `docker-compose restart opik-backend opik-frontend`
+
+**Port Conflicts**
+- Change ports in `docker-compose.yml` if 8501 or 5173 are in use
+- Update environment variables accordingly
+
+### Logs and Debugging
+
+```bash
+# View application logs
+docker-compose logs -f openai-agents-app
+
+# View Opik logs
+docker-compose logs -f opik-backend
+
+# Check service status
+docker-compose ps
 ```
 
-### 3. Azure OpenAI Client
-```python
-azure_client = AsyncAzureOpenAI(
-    api_key=os.getenv("AZURE_OPENAI_API_KEY"),
-    api_version=os.getenv("AZURE_OPENAI_API_VERSION"),
-    azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
-)
+## ðŸ“ˆ Performance Tips
 
-# Wrap with Opik tracking
-azure_client = track_openai(azure_client, project_name="your-project")
-```
+1. **Model Selection**: Use appropriate Azure OpenAI model for your use case
+2. **Caching**: Implement response caching for repeated queries
+3. **Async Processing**: The app uses async processing for better performance
+4. **Resource Limits**: Configure Docker resource limits in production
 
-## Troubleshooting
+## ðŸ” Security Considerations
 
-### Common Issues:
+1. **Environment Variables**: Never commit `.env` to version control
+2. **API Keys**: Rotate keys regularly
+3. **Network Security**: Use HTTPS in production
+4. **Container Security**: Run containers as non-root user (configured in Dockerfile)
 
-1. **"Resource not found" error**:
-   - Verify your Azure OpenAI endpoint and deployment name
-   - Ensure the model is deployed in Azure AI Foundry
-
-2. **Opik connection issues**:
-   - Check your API token and workspace name
-   - Verify network connectivity to Comet servers
-
-3. **Import errors**:
-   - Ensure all dependencies are installed: `pip install -r requirements.txt`
-   - Use Python 3.9 or higher
-
-### Debug Tips:
-
-- Check environment variables are loaded correctly
-- Verify Azure OpenAI quotas and limits
-- Monitor Opik dashboard for error traces
-- Use CLI version for simpler debugging
-
-## Additional Resources
+## ðŸ“š Additional Resources
 
 - [OpenAI Agents SDK Documentation](https://openai.github.io/openai-agents-python/)
-- [Azure OpenAI Service](https://learn.microsoft.com/en-us/azure/ai-services/openai/)
-- [Opik Documentation](https://www.comet.com/docs/opik/)
+- [Azure OpenAI Service Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/openai/)
+- [Opik Documentation](https://github.com/comet-ml/opik)
 - [Streamlit Documentation](https://docs.streamlit.io/)
 
-## Contributing
+## ðŸ¤ Contributing
 
-Feel free to submit issues, feature requests, or pull requests to improve this application.
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
 
-## License
+## ðŸ“„ License
 
-This project is open source and available under the MIT License.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## ðŸ™‹â€â™‚ï¸ Support
+
+- Create an issue for bugs or feature requests
+- Check existing issues before creating new ones
+- Provide detailed information for troubleshooting
+
+---
+
+**Happy coding! ðŸš€**

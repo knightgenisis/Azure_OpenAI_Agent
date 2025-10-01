@@ -1,12 +1,24 @@
+# Core dependencies
 streamlit>=1.28.0
-python-dotenv>=1.0.0
-asyncio
-
-openai>=1.30.0
-
-openai-agents>=0.0.8
-
+openai-agents>=0.3.3
+openai>=1.12.0
 opik>=0.2.0
+python-dotenv>=1.0.0
 
-requests>=2.31.0
+# Data processing
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Async support
+aiohttp>=3.8.0
+asyncio-throttle>=1.0.0
+
+# Logging and monitoring
+structlog>=23.1.0
+
+# Environment and configuration
 pydantic>=2.0.0
+pydantic-settings>=2.0.0
+
+# Optional UI enhancements
+plotly>=5.15.0
