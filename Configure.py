@@ -41,11 +41,11 @@ class Config:
 
 # Test configuration when run directly
 if __name__ == "__main__":
-    print("ðŸ”§ Configuration Test")
+    print("Configuration Test")
     print("-" * 30)
     
     status = Config.get_status()
-    print(f"Configured: {'âœ…' if status['configured'] else 'âŒ'}")
+    print(f"Configured: {'SUCCESS' if status['configured'] else 'FAILURE'}")
     print(f"Endpoint: {status['endpoint'] or 'Not set'}")
     print(f"Deployment: {status['deployment']}")
     print(f"Opik Project: {status['project']}")
